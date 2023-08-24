@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:24:19 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/23 13:28:33 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/24 14:48:40 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,28 @@ unsigned long	get_time(void)
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec * 0.001));
 }
+
+unsigned long	get_passed_time(unsigned long begin)
+{
+	return (get_time() - begin);
+}
+
+void	smart_sleep(int time_pass)
+{
+	unsigned long	time_now;
+
+	time_now = get_time();
+	while (get_time() <= time_now + time_pass)
+		usleep(100);
+}
+
+void	destroy(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_of_philo)
+		pthread_mutex_destroy(&data->forks[i++]);
+	pthread_mutex_destroy(&data->mutex_util);
+}
+

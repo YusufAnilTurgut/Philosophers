@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   controls.c                                         :+:      :+:    :+:   */
+/*   ft_check_controls.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:20:57 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/23 15:24:01 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/24 15:08:20 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,35 @@ int control(int ac, char **av)
 	return (1);
 }
 
-int get_data(t_data *data, char **av)
+int	is_dead(t_data *data)
 {
-	data->num_of_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	if(data->num_of_philo < 1)
+	pthread_mutex_lock(&data->mutex_util);
+	if (data->is_philo_dead == 1)
 	{
-		printf("Error: Wrong argument!\n");
+		pthread_mutex_unlock(&data->mutex_util);
 		return (0);
 	}
-	if (av[5])
-	{
-		if (av[5])
-		{
-			if(ft_atoi(av[5]) < 0)
-			{
-				printf("Error: Wrong argument!\n");
-				return (0);
-			}
-			data->num_must_eat =  ft_atoi(av[5]);
-		}
-		
-	}
-	else
-		data->num_must_eat = -1;
-	return 1;
+	pthread_mutex_unlock(&data->mutex_util);
+	return (1);
 }
 
-void	destroy(t_data *data)
+int	all_philos_eat(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->num_of_philo)
-		pthread_mutex_destroy(&data->forks[i++]);
-	pthread_mutex_destroy(&data->mutex_util);
+	{
+		pthread_mutex_lock(&data->mutex_util);
+		if (data->philo[i].meals != data->num_must_eat)
+		{
+			pthread_mutex_unlock(&data->mutex_util);
+			return (1);
+		}
+		pthread_mutex_unlock(&data->mutex_util);
+		i++;
+	}
+	pthread_mutex_unlock(&data->mutex_util);
+	return (0);
 }
+

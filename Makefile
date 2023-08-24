@@ -3,7 +3,10 @@ NAME = philo
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 
-SRCS = main.c utils.c controls.c threads.c
+SRCS = main.c ft_utils.c ft_check_controls.c\
+	ft_threads_create.c ft_print.c\
+	ft_routine.c ft_init.c ft_death.c
+
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
