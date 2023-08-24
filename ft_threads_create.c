@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:19:50 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 15:06:18 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/24 20:00:50 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	thread_init(t_data *data)
 	data->start_time = get_time();
 	if (data->num_of_philo == 1)
 	{
-		pthread_create(&data->philo[0].thread, NULL, &one_philo, data);
+		pthread_create(&data->philo[0].thread, NULL, &only_one_philo, data);
 		join_threads(data);
 	}
 	else
@@ -34,6 +34,7 @@ void	thread_init(t_data *data)
 			i++;
 		}
 		pthread_create(&data -> dead, NULL, &death, data);
+		//pthread_detach(data -> dead);
 		join_threads(data);
 	}	
 	

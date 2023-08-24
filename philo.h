@@ -43,7 +43,7 @@ void			philo_init(t_data *data);
 unsigned long	get_passed_time(unsigned long begin);
 void			join_threads(t_data *data);
 void			threads_init(t_data *data);
-void* 			one_philo(void *void_data);
+void* 			only_one_philo(void *void_data);
 int				print_action(t_data *data, int index, char *str);
 void			smart_sleep(int time);
 void			thread_init(t_data *data);
@@ -51,7 +51,9 @@ void			*routine(void *void_data);
 int				eating(t_data *data, int index);
 int				sleeping(t_data *data, int index);
 int				thinking(t_data *data, int index);
-int				is_dead(t_data *data);
+int				is_death(t_data *data);
 void			*death(void *void_data);
 int				all_philos_eat(t_data *data);
+
+
 #endif

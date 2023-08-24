@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:20:57 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 15:08:20 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/24 20:02:04 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,31 @@ int control(int ac, char **av)
 	return (1);
 }
 
-int	is_dead(t_data *data)
+int	is_death(t_data *data)
 {
 	pthread_mutex_lock(&data->mutex_util);
-	if (data->is_philo_dead == 1)
+	if(data -> is_philo_dead == 1)
 	{
 		pthread_mutex_unlock(&data->mutex_util);
-		return (0);
+		return 1;
 	}
 	pthread_mutex_unlock(&data->mutex_util);
-	return (1);
+	return 0;
 }
 
-int	all_philos_eat(t_data *data)
+int all_philos_eat(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->num_of_philo)
+	int i = 0;
+	while (i < data -> num_of_philo)
 	{
 		pthread_mutex_lock(&data->mutex_util);
-		if (data->philo[i].meals != data->num_must_eat)
+		if (data->philo[i].meals != data -> num_must_eat )
 		{
 			pthread_mutex_unlock(&data->mutex_util);
-			return (1);
+			return 0;
 		}
 		pthread_mutex_unlock(&data->mutex_util);
 		i++;
 	}
-	pthread_mutex_unlock(&data->mutex_util);
-	return (0);
+	return 1;
 }
-

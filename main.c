@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:16:50 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 14:35:57 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:49:32 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int main(int argc, char **av)
 	philo_init(data);
 	thread_init(data);
 	destroy(data);
+	
 
 	return 0;
 }
