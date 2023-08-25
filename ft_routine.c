@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:57:01 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/25 16:52:22 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/25 18:04:28 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,31 @@ int eating(t_data *data, int index)
 	return 0;
 }
 
+int	eating_n(t_data *data, int index)
+{
+	if (is_death(data) == 0)
+	{
+		pthread_mutex_lock(&data->forks[index]);
+		if (print_action(data, index, "has taken a fork"))
+			return (1);
+		pthread_mutex_lock(&data->forks[(index + 1) % data->num_of_philo]);
+		if (print_action(data, index, "has taken a fork"))
+			return (1);
+		if (print_action(data, index, "is eating"))
+			return (1);
+		pthread_mutex_lock(&data->mutex_util);
+		data->philo[index].meals++;
+		data->philo[index].last_eat = get_time();
+		pthread_mutex_unlock(&data->mutex_util);
+		smart_sleep(data->time_to_eat);
+		pthread_mutex_unlock(&data->forks[index]);
+		pthread_mutex_unlock(&data->forks[(index + 1) % data->num_of_philo]);
+	}
+	else
+		return (1);
+	return (0);
+}
+
 void* routine(void* v_data)
 {
 	t_data *data = (t_data *)v_data;
@@ -83,4 +108,30 @@ void* routine(void* v_data)
 			break ;
 	}
 	return (NULL);
+}
+
+void	*routine_n(void *void_data)
+{
+	int		index;
+	t_data	*data;
+
+	data = (t_data *)void_data;
+	pthread_mutex_lock(&data->mutex_util);
+	index = data->thread_index;
+	pthread_mutex_unlock(&data->mutex_util);
+	while (1)
+	{
+		if (data->num_must_eat != data->philo[index].meals)
+		{
+			if (is_death(data) == 1|| eating(data, index))
+				break ;
+			if (is_death(data) == 1 || sleeping(data, index))
+				break ;
+			if (is_death(data) == 1 || thinking(data, index))
+				break ;
+		}
+		else
+			break ;
+	}
+	return (0);
 }

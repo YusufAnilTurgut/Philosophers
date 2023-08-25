@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:34:38 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/25 16:48:23 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/25 18:12:36 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int is_ate(t_data *data, int i)
 
 int philo_death(t_data *data, int i)
 {
-	unsigned long now = get_time();
+	unsigned long pass_time;
 	pthread_mutex_lock(&data->mutex_util);
-	if(now - data->philo[i].last_eat >= (unsigned long)data->time_to_die)
+	pass_time = get_passed_time(data -> philo[i].last_eat);
+	if(pass_time >= (unsigned long)data->time_to_die)
 	{
 		printf("%-10lu   %d died", get_passed_time(data->start_time), data->philo[i].philo_id);
 		data -> is_philo_dead = + 1;
@@ -39,8 +40,6 @@ int philo_death(t_data *data, int i)
 	return (0);
 }
 
-
-
 void* death(void* v_data)
 {
 	int i = 0;
@@ -50,7 +49,7 @@ void* death(void* v_data)
 		i = 0;
 		if (is_death(data) == 1 || all_philos_eat(data) == 1)
 			break;
-		if (is_ate(data, i) == 1)
+		if (is_ate(data, i) == 1 )
 			continue ;
 		while (i < data -> num_of_philo)
 		{
