@@ -1,7 +1,7 @@
 
 NAME = philo
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+FLAGS = -Wall -Wextra -Werror 
 
 SRCS = main.c ft_utils.c ft_check_controls.c\
 	ft_threads_create.c ft_print.c\

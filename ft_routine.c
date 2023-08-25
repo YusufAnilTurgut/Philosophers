@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:57:01 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 19:57:21 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:52:22 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ int	thinking(t_data *data, int index)
 	return (0);
 }
 
-
-
 void* only_one_philo(void* v_data)
 {
 	t_data *data = (t_data *)v_data;
+	data->start_time = get_time();
 	print_action(data, 0, "has taken fork");
 	smart_sleep(data -> time_to_die);
 	printf("%-10lu   %d died", get_passed_time(data->start_time), data->philo[0].philo_id);
@@ -44,8 +43,8 @@ int eating(t_data *data, int index)
 	if (is_death(data) == 0)
 	{	
 		pthread_mutex_lock(&data->forks[index]);
-		pthread_mutex_lock(&data->forks[(index + 1) % data -> num_of_philo]);
 		print_action(data, index, "has taken fork");
+		pthread_mutex_lock(&data->forks[(index + 1) % data -> num_of_philo]);
 		print_action(data, index, "has taken fork");
 		print_action(data, index, "eating");
 		pthread_mutex_lock(&data->mutex_util);

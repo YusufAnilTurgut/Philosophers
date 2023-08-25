@@ -11,7 +11,6 @@ typedef struct s_philo
 {
 	int				philo_id;
 	int				meals;
-	int				num_must_meals;
 	unsigned long	last_eat;
 	pthread_t		thread;
 }					t_philo;
@@ -54,6 +53,5 @@ int				thinking(t_data *data, int index);
 int				is_death(t_data *data);
 void			*death(void *void_data);
 int				all_philos_eat(t_data *data);
-
 
 #endif

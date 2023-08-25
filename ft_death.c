@@ -6,11 +6,23 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:34:38 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 19:59:00 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:48:23 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int is_ate(t_data *data, int i)
+{
+	pthread_mutex_lock(&data->mutex_util);
+	if(data -> philo[i].meals == data -> num_must_eat)
+	{
+		pthread_mutex_unlock(&data->mutex_util);
+		return 1;
+	}
+	pthread_mutex_unlock(&data->mutex_util);
+	return 0;
+}
 
 int philo_death(t_data *data, int i)
 {
@@ -38,6 +50,8 @@ void* death(void* v_data)
 		i = 0;
 		if (is_death(data) == 1 || all_philos_eat(data) == 1)
 			break;
+		if (is_ate(data, i) == 1)
+			continue ;
 		while (i < data -> num_of_philo)
 		{
 			if(all_philos_eat(data) == 1 || philo_death(data, i))

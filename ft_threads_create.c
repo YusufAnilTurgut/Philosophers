@@ -6,7 +6,7 @@
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:19:50 by yturgut           #+#    #+#             */
-/*   Updated: 2023/08/24 20:00:50 by yturgut          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:55:13 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ void	thread_init(t_data *data)
 			pthread_mutex_lock(&data->mutex_util);
 			data->thread_index = i;
 			pthread_mutex_unlock(&data->mutex_util);
-			pthread_create(&data->philo[i].thread, NULL, &routine, data);
-			i++;
+			pthread_create(&data->philo[i++].thread, NULL, &routine, data);
+			usleep(100);
 		}
 		pthread_create(&data -> dead, NULL, &death, data);
-		//pthread_detach(data -> dead);
 		join_threads(data);
 	}	
 	
@@ -43,10 +42,8 @@ void	thread_init(t_data *data)
 void	join_threads(t_data *data)
 {
 	int	i;
-
 	i = 0;
 	while (i < data->num_of_philo)
 		pthread_join(data->philo[i++].thread, NULL);
 	pthread_join(data->dead, NULL);
 }
-
