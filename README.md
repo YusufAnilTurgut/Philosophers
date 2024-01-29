@@ -23,7 +23,7 @@ HOW TO USE
 
 - Clone the repo
 
-> git clone git@github.com:YusufAnilTurgut/Philosophers.git
+> git clone https://github.com/YusufAnilTurgut/Philosophers.git
 Go to philo folder and run make
 
 > cd ./philo && make
